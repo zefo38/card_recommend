@@ -1,17 +1,10 @@
 import streamlit as st
 import home
-import streamlit as st
 import yaml
 import streamlit_authenticator as stauth
-import streamlit as st
-# from langchain.document_loaders import WebBaseLoader
-# from langchain.text_splitter import RecursiveCharacterTextSplitter
-# from langchain.text_splitter import CharacterTextSplitter
 import time
 import pandas as pd
 import card
-
-
 
 
 def main() :

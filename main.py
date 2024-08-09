@@ -43,7 +43,6 @@ if authentication_status:
 
     st.title('💬 KB Chatbot')
     st.caption("더 나은 금융생활을 위한 맞춤형 서비스를 지원해드립니다.")
-    st.header('')
 
     tab1, tab2= st.tabs(['가계부 챗봇' , '카드 추천'])
     with tab1:
@@ -158,23 +157,62 @@ if authentication_status:
 
             cards1 = sum_df.sort_values('총합',ascending=False).head(3)['카드명'].tolist()
 
+            benefit = grouped_df[grouped_df['카드명'].isin(cards1)].sort_values('이용 횟수', ascending=False)
+
+            bene = []
+            for card in cards1:
+                bene.append(benefit.loc[benefit['카드명'] == card].head(4)['혜택 카테고리'])
+
+            for i in range(len(cards1)):
+                if '다담' in cards1[i]:
+                    cards1[i] = '다담'
+
+
             img1 = Image.open(f'{cards1[0]}.png')
-            img2 = Image.open(f'{cards1[2]}.png')
 
-                # 경로에 있는 이미지 파일을 통해 변수 저장
-            st.image(img1)
-            st.image(img2)
+            img1 = img1.resize((172, 108))
 
-            st.write(f'1.{cards1[0]}')
+            img2 = Image.open(f'{cards1[1]}.png')
+            img2 = img2.resize((172, 108))
+
+            img3 = Image.open(f'{cards1[2]}.png')
+            img3 = img3.resize((172, 108))
+
+            col1, col2, col3 = st.columns(3)
+
+            with col1 :
+                st.image(img1)
+                st.markdown(f'**1. {cards1[0]}**')
+                st.markdown(bene[0].values)
+
+            with col2 :
+                st.image(img2)
+                st.markdown(f'**2. {cards1[1]}**')
+
+                st.markdown(bene[1].values)
+
+
+            with col3 :
+                st.image(img3)
+                st.markdown(f'**3. {cards1[2]}**')
+
+                st.markdown(bene[2].values)
+
+
+
+
                 # streamlit를 통해 이미지를 보여준다.
 
 
         st.subheader(f'{name}님에게 적합한 카드 추천')
-        
+        st.header('')
         if __name__ == '__main__':
             data()
 
-        if st.button('Say hello'):
+        st.subheader('')
+        st.markdown('나랑 비슷한 소비패턴을 가진 사람들은 어떤 카드를 쓸까?')
+        if st.button('확인해보기'):
+
             st.write('Why hello there')
         else:
             st.write('Goodbye')  
