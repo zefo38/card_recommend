@@ -7,7 +7,9 @@ import streamlit as st
 # from langchain.text_splitter import CharacterTextSplitter
 import time
 import pandas as pd
+from PIL import Image 
 
+st.set_page_config(layout="wide")
 
 with open('config.yaml') as file:
     config = yaml.load(file, Loader=stauth.SafeLoader)
@@ -156,8 +158,16 @@ if authentication_status:
 
             cards1 = sum_df.sort_values('총합',ascending=False).head(3)['카드명'].tolist()
 
+            img1 = Image.open(f'{cards1[0]}.png')
+            img2 = Image.open(f'{cards1[2]}.png')
 
-            st.write(cards1[0])
+                # 경로에 있는 이미지 파일을 통해 변수 저장
+            st.image(img1)
+            st.image(img2)
+
+            st.write(f'1.{cards1[0]}')
+                # streamlit를 통해 이미지를 보여준다.
+
 
         st.subheader(f'{name}님에게 적합한 카드 추천')
         
