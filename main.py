@@ -1,15 +1,9 @@
-import streamlit as st
 import yaml
 import streamlit_authenticator as stauth
 import streamlit as st
-# from langchain.document_loaders import WebBaseLoader
-# from langchain.text_splitter import RecursiveCharacterTextSplitter
-# from langchain.text_splitter import CharacterTextSplitter
-import time
 import pandas as pd
 from PIL import Image
-from sklearn.preprocessing import StandardScaler
-import pacmap
+import cluster
 
 st.set_page_config(layout="wide")
 
@@ -172,13 +166,13 @@ if authentication_status:
 
             img1 = Image.open(f'{cards1[0]}.png')
 
-            img1 = img1.resize((172, 108))
+            img1 = img1.resize((255, 150))
 
             img2 = Image.open(f'{cards1[1]}.png')
-            img2 = img2.resize((172, 108))
+            img2 = img2.resize((255, 150))
 
             img3 = Image.open(f'{cards1[2]}.png')
-            img3 = img3.resize((172, 108))
+            img3 = img3.resize((255, 150))
 
             col1, col2, col3 = st.columns(3)
 
@@ -207,15 +201,47 @@ if authentication_status:
 
 
         st.subheader(f'{name}님에게 적합한 카드 추천')
-        st.header('')
+        st.markdown('')
         if __name__ == '__main__':
             data()
 
         st.subheader('')
-        st.markdown('나랑 비슷한 소비패턴을 가진 사람들은 어떤 카드를 쓸까?')
+        st.markdown('**나랑 비슷한 소비패턴을 가진 사람들은 어떤 카드를 쓸까?**')
         if st.button('확인해보기'):
+            card2 = cluster.card_recommend()
+            # st.write(card2)
 
-            st.write('Why hello there')
+            for i in range(len(card2)):
+                if '다담' in card2[i]:
+                    card2[i] = '다담'
+                elif 'MyWESH' in card2[i]:
+                    card2[i] = 'MyWESH'
+                elif 'EasyAll티타늄' in card2[i]:
+                    card2[i] = 'EasyAll티타늄'
+
+            # st.write(card2)
+
+            img1 = Image.open(f'{card2[0]}.png')
+            img1 = img1.resize((255, 150))
+
+            img2 = Image.open(f'{card2[1]}.png')
+            img2 = img2.resize((255, 150))
+
+            img3 = Image.open(f'{card2[2]}.png')
+            img3 = img3.resize((255, 150))
+
+            col1, col2, col3 = st.columns(3)
+
+            with col1 :
+                st.image(img1)
+                st.markdown(f'**1. {card2[0]}**')
+            with col2 :
+                st.image(img2)
+                st.markdown(f'**2. {card2[1]}**')
+            with col3 :
+                st.image(img3)
+                st.markdown(f'**3. {card2[2]}**')
+
 
         else:
             st.write('Goodbye')  

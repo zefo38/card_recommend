@@ -8,7 +8,7 @@ import card
 import cluster
 
 
-def menu() :
+def menu():
     with open('config.yaml') as file:
         config = yaml.load(file, Loader=stauth.SafeLoader)
 
@@ -35,7 +35,7 @@ def menu() :
     elif choice == menu[1]:
         card.card()
     elif choice == menu[2]:
-        cluster.cluster()
+        cluster.card_recommend()
 
 if __name__ == '__main__':
             menu()
