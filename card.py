@@ -6,7 +6,7 @@ import time
 import pandas as pd
 import menu
 
-name, authentication_status, username = menu.main()
+# name, authentication_status, username = menu.main()
 def card() :
 
 
@@ -18,7 +18,7 @@ def card() :
     st.subheader(f'{menu.main().name}적합한 카드 추천')
 
     if __name__ == '__main__':
-         main()
+         menu()
 
     if st.button('Say hello'):
         st.write('Why hello there')

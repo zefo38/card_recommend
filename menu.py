@@ -5,9 +5,10 @@ import streamlit_authenticator as stauth
 import time
 import pandas as pd
 import card
+import cluster
 
 
-def main() :
+def menu() :
     with open('config.yaml') as file:
         config = yaml.load(file, Loader=stauth.SafeLoader)
 
@@ -33,6 +34,8 @@ def main() :
         home.run_home()
     elif choice == menu[1]:
         card.card()
+    elif choice == menu[2]:
+        cluster.cluster()
 
 if __name__ == '__main__':
-            main()
+            menu()

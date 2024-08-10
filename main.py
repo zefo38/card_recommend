@@ -7,7 +7,9 @@ import streamlit as st
 # from langchain.text_splitter import CharacterTextSplitter
 import time
 import pandas as pd
-from PIL import Image 
+from PIL import Image
+from sklearn.preprocessing import StandardScaler
+import pacmap
 
 st.set_page_config(layout="wide")
 
@@ -214,6 +216,7 @@ if authentication_status:
         if st.button('확인해보기'):
 
             st.write('Why hello there')
+
         else:
             st.write('Goodbye')  
 
