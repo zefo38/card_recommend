@@ -29,13 +29,16 @@ if authentication_status == False:
 
 # if authentication_status == None:
 #     st.warning("Please enter your username and password")
+kb = Image.open('KB.png')
 
 if authentication_status:
-    authenticator.logout("Logout","sidebar")
+
+    st.sidebar.image(kb)
     st.sidebar.title(f"Welcome {name}님")
 
-        ## 로그인 이후
+    authenticator.logout("Logout","sidebar")
 
+        ## 로그인 이후
 
     st.title('💬 KB Chatbot')
     st.caption("더 나은 금융생활을 위한 맞춤형 서비스를 지원해드립니다.")
@@ -75,9 +78,9 @@ if authentication_status:
 
             df_transactions = pd.read_csv('card_transaction2.csv')
             card_benefit_df = pd.read_csv('card2.csv')
-            df_transactions['날짜'] = pd.to_datetime(df_transactions['날짜'])
-
             df_transactions = df_transactions.loc[df_transactions['고객번호']==40]
+
+            df_transactions['날짜'] = pd.to_datetime(df_transactions['날짜'])
 
             card_benefit = card_benefit_df.groupby(['카드명','혜택 카테고리']).mean().reset_index()
 
@@ -154,15 +157,13 @@ if authentication_status:
             cards1 = sum_df.sort_values('총합',ascending=False).head(3)['카드명'].tolist()
 
             benefit = grouped_df[grouped_df['카드명'].isin(cards1)].sort_values('이용 횟수', ascending=False)
-
             bene = []
             for card in cards1:
-                bene.append(benefit.loc[benefit['카드명'] == card].head(4)['혜택 카테고리'])
+                bene.append(benefit.loc[benefit['카드명'] == card].head(5)['혜택 카테고리'].reset_index(drop=True))
 
             for i in range(len(cards1)):
                 if '다담' in cards1[i]:
                     cards1[i] = '다담'
-
 
             img1 = Image.open(f'{cards1[0]}.png')
 
@@ -178,35 +179,29 @@ if authentication_status:
 
             with col1 :
                 st.image(img1)
-                st.markdown(f'**1. {cards1[0]}**')
-                st.markdown(bene[0].values)
+                st.markdown(f'##### **1. {cards1[0]}**')
+                st.markdown(f'**{bene[0].values[0]}**, **{bene[0].values[1]}**, **{bene[0].values[3]}**에서 혜택 특화!')
 
             with col2 :
                 st.image(img2)
-                st.markdown(f'**2. {cards1[1]}**')
-
-                st.markdown(bene[1].values)
-
+                st.markdown(f'##### **2. {cards1[1]}**')
+                st.markdown(f'**{bene[1].values[0]}**, **{bene[1].values[1]}**, **{bene[1].values[2]}**에서 혜택 특화!')
 
             with col3 :
                 st.image(img3)
-                st.markdown(f'**3. {cards1[2]}**')
-
-                st.markdown(bene[2].values)
-
-
-
-
-                # streamlit를 통해 이미지를 보여준다.
+                st.markdown(f'##### **3. {cards1[2]}**')
+                st.markdown(f'**{bene[2].values[0]}**, **{bene[2].values[1]}**, **{bene[2].values[2]}**에서 혜택 특화!')
 
 
         st.subheader(f'{name}님에게 적합한 카드 추천')
         st.markdown('')
+        st.markdown(f'#### 지난 달 {name}님 소비 분석 결과')
+        st.write('')
         if __name__ == '__main__':
             data()
 
         st.subheader('')
-        st.markdown('**나랑 비슷한 소비패턴을 가진 사람들은 어떤 카드를 쓸까?**')
+        st.markdown('#### **나랑 비슷한 소비패턴을 가진 사람들은 어떤 카드를 쓸까?**')
         if st.button('확인해보기'):
             card2 = cluster.card_recommend()
             # st.write(card2)
@@ -234,13 +229,13 @@ if authentication_status:
 
             with col1 :
                 st.image(img1)
-                st.markdown(f'**1. {card2[0]}**')
+                st.markdown(f' **1. {card2[0]}**')
             with col2 :
                 st.image(img2)
-                st.markdown(f'**2. {card2[1]}**')
+                st.markdown(f'##### **2. {card2[1]}**')
             with col3 :
                 st.image(img3)
-                st.markdown(f'**3. {card2[2]}**')
+                st.markdown(f'##### **3. {card2[2]}**')
 
 
         else:
